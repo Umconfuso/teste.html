@@ -1,44 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modelo 3D em RA</title>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR com Imagem</title>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/ar.js/aframe/build/aframe-ar.min.js"></script>
     <style>
       body {
         margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f0f0f0;
-        font-family: Arial, sans-serif;
-      }
-      model-viewer {
-        width: 100%;
-        height: 100%;
-        max-width: 600px;
-      }
-      #error {
-        display: none;
-        color: red;
-        font-size: 1.2rem;
-        text-align: center;
+        overflow: hidden;
       }
     </style>
   </head>
   <body>
-    <model-viewer
-      id="viewer"
-      src="https://drive.google.com/uc?export=download&id=1gnxsemmhzxak4ClAdy4T7VDAWNMaWley"
-      ar
-      ar-modes="webxr scene-viewer quick-look"
-      camera-controls
-      environment-image="neutral"
-      alt="Modelo 3D"
-      onerror="document.getElementById('error').style.display = 'block';"
-    ></model-viewer>
-    <div id="error">Erro ao carregar o modelo 3D. Verifique o link ou o formato do arquivo.</div>
+    <a-scene embedded arjs>
+      <!-- Adicionando a imagem do GitHub como overlay na cena -->
+      <a-image 
+        src="https://raw.githubusercontent.com/Umconfuso/teste.html/main/001.png" 
+        position="0 0 -2" 
+        scale="1 1 1">
+      </a-image>
+
+      <!-- Opcional: marcador para AR.js -->
+      <a-marker-camera preset="hiro"></a-marker-camera>
+    </a-scene>
   </body>
 </html>
