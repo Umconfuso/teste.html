@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -23,7 +22,20 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        z-index: 10;
+        z-index: 1000;
+      }
+      #error-message {
+        display: none;
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        z-index: 1000;
       }
     </style>
   </head>
@@ -31,13 +43,16 @@
     <!-- Botão para mostrar a imagem -->
     <button id="start-button">Mostrar Imagem</button>
 
+    <!-- Mensagem de erro -->
+    <div id="error-message">Erro: Imagem não carregada corretamente.</div>
+
     <a-scene embedded arjs>
-      <!-- Câmera com controle de toque -->
+      <!-- Câmera -->
       <a-camera position="0 0 0">
         <a-cursor color="yellow"></a-cursor>
       </a-camera>
 
-      <!-- Imagem inicial invisível -->
+      <!-- Imagem escondida inicialmente -->
       <a-image
         id="macaroon"
         src="https://raw.githubusercontent.com/Umconfuso/teste.html/main/001.png"
@@ -48,16 +63,26 @@
     </a-scene>
 
     <script>
-      // Mostrar a imagem após o clique no botão
       document.getElementById("start-button").addEventListener("click", function () {
+        const image = document.getElementById("macaroon");
+
         // Esconder o botão
         this.style.display = "none";
 
-        // Tornar a imagem visível
-        const image = document.getElementById("macaroon");
-        image.setAttribute("visible", "true");
-
-        console.log("Imagem exibida.");
+        // Certificar-se de que a imagem carregou corretamente
+        const imgSrc = image.getAttribute("src");
+        const testImage = new Image();
+        testImage.onload = function () {
+          // Tornar a imagem visível se ela carregar
+          image.setAttribute("visible", "true");
+          console.log("Imagem exibida com sucesso.");
+        };
+        testImage.onerror = function () {
+          // Mostrar mensagem de erro se a imagem não carregar
+          document.getElementById("error-message").style.display = "block";
+          console.error("Erro ao carregar a imagem.");
+        };
+        testImage.src = imgSrc;
       });
     </script>
   </body>
