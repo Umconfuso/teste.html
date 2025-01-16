@@ -11,40 +11,53 @@
         margin: 0;
         overflow: hidden;
       }
+      #start-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #007bff;
+        color: white;
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 10;
+      }
     </style>
   </head>
   <body>
+    <!-- Botão para mostrar a imagem -->
+    <button id="start-button">Mostrar Imagem</button>
+
     <a-scene embedded arjs>
       <!-- Câmera com controle de toque -->
       <a-camera position="0 0 0">
-        <a-cursor></a-cursor>
+        <a-cursor color="yellow"></a-cursor>
       </a-camera>
 
-      <!-- Imagem clicável e arrastável -->
+      <!-- Imagem inicial invisível -->
       <a-image
         id="macaroon"
         src="https://raw.githubusercontent.com/Umconfuso/teste.html/main/001.png"
-        position="0 0 -2"
+        position="0 1 -2"
         scale="1 1 1"
-        rotation="0 0 0"
-        draggable>
+        visible="false">
       </a-image>
     </a-scene>
 
-    <!-- Script para tornar a imagem clicável e movível -->
     <script>
-      // Detectar cliques na cena
-      document.querySelector("a-scene").addEventListener("click", function (event) {
-        // Capturar a posição do clique na cena
-        const intersectedElement = event.target; // O elemento clicado
-        const coords = event.detail.intersection.point; // Coordenadas do clique
+      // Mostrar a imagem após o clique no botão
+      document.getElementById("start-button").addEventListener("click", function () {
+        // Esconder o botão
+        this.style.display = "none";
 
-        // Verifica se o clique foi na imagem
-        if (intersectedElement.id === "macaroon") {
-          // Atualiza a posição da imagem
-          const image = document.getElementById("macaroon");
-          image.setAttribute("position", `${coords.x} ${coords.y} ${coords.z}`);
-        }
+        // Tornar a imagem visível
+        const image = document.getElementById("macaroon");
+        image.setAttribute("visible", "true");
+
+        console.log("Imagem exibida.");
       });
     </script>
   </body>
