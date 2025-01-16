@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR com Imagem</title>
+    <title>AR Interativa</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/ar.js/aframe/build/aframe-ar.min.js"></script>
     <style>
@@ -15,15 +15,37 @@
   </head>
   <body>
     <a-scene embedded arjs>
-      <!-- Adicionando a imagem do GitHub como overlay na cena -->
-      <a-image 
-        src="https://raw.githubusercontent.com/Umconfuso/teste.html/main/001.png" 
-        position="0 0 -2" 
-        scale="1 1 1">
-      </a-image>
+      <!-- Câmera com controle de toque -->
+      <a-camera position="0 0 0">
+        <a-cursor></a-cursor>
+      </a-camera>
 
-      <!-- Opcional: marcador para AR.js -->
-      <a-marker-camera preset="hiro"></a-marker-camera>
+      <!-- Imagem clicável e arrastável -->
+      <a-image
+        id="macaroon"
+        src="https://raw.githubusercontent.com/Umconfuso/teste.html/main/001.png"
+        position="0 0 -2"
+        scale="1 1 1"
+        rotation="0 0 0"
+        draggable>
+      </a-image>
     </a-scene>
+
+    <!-- Script para tornar a imagem clicável e movível -->
+    <script>
+      // Detectar cliques na cena
+      document.querySelector("a-scene").addEventListener("click", function (event) {
+        // Capturar a posição do clique na cena
+        const intersectedElement = event.target; // O elemento clicado
+        const coords = event.detail.intersection.point; // Coordenadas do clique
+
+        // Verifica se o clique foi na imagem
+        if (intersectedElement.id === "macaroon") {
+          // Atualiza a posição da imagem
+          const image = document.getElementById("macaroon");
+          image.setAttribute("position", `${coords.x} ${coords.y} ${coords.z}`);
+        }
+      });
+    </script>
   </body>
 </html>
